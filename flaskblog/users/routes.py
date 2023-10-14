@@ -33,6 +33,9 @@ def confirm_token(token):
         flash("That is an invalid or expired token","warning")
         return redirect(url_for("users.login"))
     user.confirmed = True
+    # make user admin if their email is in the list of admin emails
+    if user.email == os.environ.get('EMAIL_USER'):
+        user.is_admin = True
     db.session.commit()
     flash(f"Your email has been confirmed! You are now able to log in","success")
     return redirect(url_for("users.login"))
