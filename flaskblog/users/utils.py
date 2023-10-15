@@ -12,7 +12,7 @@ def save_picture(form_picture):
     picture_path = os.path.join(current_app.root_path,"static/profile_pics",picture_fn)
     form_picture.save(picture_path) 
     prev_picture = os.path.join(current_app.root_path, 'static/profile_pics', current_user.image_file)
-    ok = os.path.exists(prev_picture)
+    
     if os.path.exists(prev_picture) and current_user.image_file != "default.jpg":
         os.remove(prev_picture)
     return picture_fn
