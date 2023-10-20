@@ -1,8 +1,8 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from flaskblog import db, login_manager
 from flask_login import UserMixin
 from flask import current_app
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+import jwt
 
 @login_manager.user_loader
 def load_user(user_id): 
@@ -26,17 +26,22 @@ class User(db.Model, UserMixin):
     # is_admin is a boolean
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
 
-    def get_reset_token(self, expires_sec=1800): 
-        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
-        return s.dumps({'user_id': self.id}).decode('utf-8')
+    def get_reset_token(self, expires_sec=1800):
+        payload = {'user_id': self.id, 'exp': datetime.utcnow() + timedelta(seconds=expires_sec)}
+        secret_key = current_app.config['SECRET_KEY']
+        token = jwt.encode(payload, secret_key, algorithm='HS256')
+        return token
 
-    @staticmethod 
-    def verify_reset_token(token): 
-        s = Serializer(current_app.config['SECRET_KEY'])
-        try: 
-            user_id = s.loads(token)['user_id']
-        except: 
-            return None
+    @staticmethod
+    def verify_reset_token(token):
+        secret_key = current_app.config['SECRET_KEY']
+        try:
+            payload = jwt.decode(token, secret_key, algorithms=['HS256'])
+            user_id = payload['user_id']
+        except jwt.exceptions.ExpiredSignatureError:
+            return None  # token has expired
+        except jwt.exceptions.InvalidSignatureError:
+            return None  # token is invalid
         return User.query.get(user_id)
 
     def __repr__(self):
