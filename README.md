@@ -2,7 +2,6 @@
 
 This repository contains a Flask application with a fully functional backend and database integration. The application includes user authentication, blog posts, and an account management system. Below are the steps to set up and run the application both locally and using Docker.
 
-
 ## Installation
 
 ### Local Installation
@@ -76,7 +75,6 @@ This repository contains a Flask application with a fully functional backend and
 - User Profile Management
 - Error Handling and Custom Error Pages
 
-
 ## Configuration
 
 The application uses environment variables for configuration. Ensure you set the following variables in your environment or Docker container:
@@ -144,26 +142,3 @@ exec gunicorn -w 4 -b 0.0.0.0:8000 wsgi:app
 
 - For local setup, the application will be available at `http://127.0.0.1:5000`
 - For Docker setup, the application will be available at `http://localhost:8000`
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/fooBar`)
-3. Commit your changes (`git commit -m 'Add some fooBar'`)
-4. Push to the branch (`git push origin feature/fooBar`)
-5. Create a new Pull Request
-
-## Contact
-
-- Author: Your Name
-- Email: your.email@example.com
-
-Feel free to reach out for any questions or collaboration ideas!
-
----
-
-This README provides a comprehensive overview of the project, including setup instructions for both local and Docker environments, as well as additional information about the application features and structure.
