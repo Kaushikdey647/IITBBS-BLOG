@@ -1,24 +1,19 @@
-# Use the official Python image from the Docker Hub
+# Use an official Python runtime as a parent image
 FROM python:3.10-slim
 
-# Set environment variables
-ENV PYTHONUNBUFFERED 1
-ENV FLASK_APP wsgi.py
-ENV FLASK_RUN_HOST 0.0.0.0
-
-# Set the working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Create and activate virtual environment, then install dependencies
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install any needed packages specified in requirements.txt
 RUN python -m venv .venv && \
-    source .venv/bin/activate && \
+    . .venv/bin/activate && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy the entire application to the container
-COPY . /app/
-
 # Create the necessary directories and initialize the database
-RUN flask db upgrade
+RUN . .venv/bin/activate && flask db upgrade
 
 # Expose the port the app runs on
 EXPOSE 8000
