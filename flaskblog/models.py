@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from flaskblog import db, login_manager
+from flask_migrate import Migrate
 from flask_login import UserMixin
 from flask import current_app
 import jwt
