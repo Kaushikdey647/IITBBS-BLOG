@@ -19,7 +19,7 @@ class User(db.Model, UserMixin):
     # image_file is default
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     # password is 60 characters long
-    password = db.Column(db.String(60), nullable=False)
+    password = db.Column(db.String(128), nullable=False)
     # posts is a relationship
     posts = db.relationship('Post', backref='author', lazy=True)
     # confirmed is a boolean

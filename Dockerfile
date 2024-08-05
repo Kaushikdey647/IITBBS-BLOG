@@ -9,9 +9,10 @@ ENV FLASK_RUN_HOST 0.0.0.0
 # Set the working directory
 WORKDIR /app
 
-# Copy the requirements.txt file and install dependencies
-COPY requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
+# Create and activate virtual environment, then install dependencies
+RUN python -m venv .venv && \
+    source .venv/bin/activate && \
+    pip install --no-cache-dir -r requirements.txt
 
 # Copy the entire application to the container
 COPY . /app/
