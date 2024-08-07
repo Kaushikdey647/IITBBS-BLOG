@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from flaskblog import db, login_manager
+from flask_migrate import Migrate
 from flask_login import UserMixin
 from flask import current_app
 import jwt
@@ -18,7 +19,7 @@ class User(db.Model, UserMixin):
     # image_file is default
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     # password is 60 characters long
-    password = db.Column(db.String(60), nullable=False)
+    password = db.Column(db.String(128), nullable=False)
     # posts is a relationship
     posts = db.relationship('Post', backref='author', lazy=True)
     # confirmed is a boolean
